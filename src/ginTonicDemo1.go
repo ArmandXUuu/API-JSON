@@ -16,5 +16,11 @@ func RepArmandXU() {
 		})
 	})
 
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Welcome to my website !",
+		})
+	})
+
 	r.Run()
 }
