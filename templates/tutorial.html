@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="zh" class="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="baidu-site-verification" content="MfC8ppEukL" />
+        <meta baidu-gxt-verify-token="fa750b19bb54c9ad03503638f41923db">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="BiIS6zyQEAbe7qCPiqg01ERpzT2VAnCFpQBuvcDt">
+
+                    <title>绑定 HTML 复选框 |《Gin 框架中文文档 2019》| Go 技术论坛 </title>
+            <meta name="description" content="参见详细信息 main.go ... type myForm struct {     Colors []string `form:&quot;colors[]&quot;` } ... func formHandler(c *gin.Context) {     var fakeForm myForm     c.ShouldBind(&amp;amp;fakeForm)     c.JSON(200, gin...
+" />
+            <meta name="keywords" content="go,golang,go教程,golang教程,go开发,go招聘,go论坛,go社区,golang社区,golang论坛,go中国,go文档,go中文,go中文文档" />
+        
+        <meta name="author" content="Summer" />
+
+                    <link rel="shortcut icon" href="https://cdn.learnku.com//uploads/communities/sNljssWWQoW6J88O9G37.png!/both/44x44"/>
+        
+        <!-- Styles -->
+        <link href="https://cdn.learnku.com//build/css/f462fd39a5be0f5156b3-vendors.css" rel="stylesheet">
+        <link href="https://cdn.learnku.com//build/css/e355c83d181bdefa06c2-app.css" rel="stylesheet">
+
+            </head>
+
+    <body class=" docs-articles-show-page">
+
+    <!-- 为 Pjax 和模板加载优化，只能放这里 -->
+    <script>
+        window.Laravel = {"csrfToken":"BiIS6zyQEAbe7qCPiqg01ERpzT2VAnCFpQBuvcDt"}
+        window.Config = {
+            'GA_Tracking_ID': 'UA-133323996-1',
+            'user_id': 0,
+            'is_student' : '',
+            'search_user_id': 0,
+            'cdn_domain': 'cdn.learnku.com',
+            'domain': 'learnku.com',
+            'request_interval': 600000, // 消息通知检测周期
+            'notification_count': 0,
+            'token': 'BiIS6zyQEAbe7qCPiqg01ERpzT2VAnCFpQBuvcDt',
+            'environment': 'production',
+            'url': 'https://learnku.com',
+            'tags_url': '',
+            'scroll_to_top': true,
+            'community': {
+                'id': 6,
+                'name': 'Go',
+                'favicon': 'https://cdn.learnku.com//uploads/communities/sNljssWWQoW6J88O9G37.png!/both/44x44'
+            },
+            'routes': {
+                'notificationsCount' : 'https://learnku.com/notifications/count',
+                'upload_image' : 'https://learnku.com/courses/upload_image',
+                                    'api_search' : 'https://learnku.com/books/api_search/226',
+                                'collections_store' : 'https://learnku.com/collections',
+                'collections_my' : 'https://learnku.com/collections/my/ajax',
+            },
+            'cdnDomain': 'https://cdn.learnku.com/',
+            'overlay': '',
+            'following_users': [],
+            'search_type': 'standard',
+            'book_id': 226,
+            'is_docs': "yes",
+            'article_id': 6187,
+            'topic_id': 0,
+            'user_settings': {
+                'visit_topic_patches_page': false
+            },
+            'can': {},
+            'editor': {},
+            'destroyeditor_id' : {
+                            },
+
+            'content': {}
+        };
+
+        var ShowCrxHint = 'no';
+
+        function onWXWebView() {
+            $('.wechat-login-link').attr("href", "https://learnku.com/auth/oauth?driver=wechat_client")
+            $('.show-on-wechat-view').show();
+        }
+        if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+            onWXWebView();
+        } else {
+            if (document.addEventListener) {
+                document.addEventListener("WeixinJSBridgeReady", onWXWebView, false);
+            } else if (document.attachEvent) {
+                document.attachEvent("WeixinJSBridgeReady", onWXWebView);
+                document.attachEvent("onWeixinJSBridgeReady", onWXWebView);
+            }
+        }
+
+    </script>
+
+    <style>
+
+        .ui.top.menu {
+            border-top: 4px solid #00b5ad;
+        }
+
+        .ui.fluid.search .results {
+            width: 550px;
+        }
+
+        @media  only screen and (max-width: 767px) {
+            .ui.top.menu > .ui.container {
+                height: 52px;
+                flex-direction: initial;
+            }
+        }
+
+        
+/* 顶部导航栏 */
+.ui.top.menu {
+    border-top: 4px solid #368cda;
+}
+
+/* 右边导航栏顶部样式 */
+.ui.top-color.segment:not(.inverted) {
+    border-top: 2px solid #368cda;
+}
+
+/* 右边导航栏顶部样式 */
+.ui.top-color.card:not(.inverted) {
+    border-top: 2px solid #368cda;
+}
+
+/* 主要按钮 */
+
+.ui.primary.buttons .button, .ui.primary.button {
+    background-color: #368cda;
+    border-color: #368cda;
+}
+/* 主要按钮选中状态 */
+.ui.primary.buttons .button:hover, .ui.primary.button:hover,.ui.primary.button:active, .ui.primary.buttons .button:active ,  .ui.primary.button:focus, .ui.primary.buttons .button:focus, .ui.primary.active.button, .ui.primary.button .active.button:active, .ui.primary.buttons .active.button, .ui.primary.buttons .active.button:active{
+    background-color: #368cda;
+    border-color: #368cda;
+}
+
+/* 外框按钮 */
+.ui.basic.primary.buttons .button, .ui.basic.primary.button {
+    color: #368cda !important;
+    box-shadow: 0px 0px 0px 1px #368cda inset !important;
+}
+
+/* 外框按钮选中状态 */
+.ui.basic.primary.buttons .button:hover, .ui.basic.primary.button:hover {
+    color: #368cda !important;
+    box-shadow: 0px 0px 0px 1px #368cda inset !important;
+}
+.ui.basic.primary.buttons .active.button, .ui.basic.primary.active.button {
+    color: #368cda !important;
+    box-shadow: 0px 0px 0px 1px #368cda inset !important;
+}
+
+.ui.basic.primary.buttons .button:active, .ui.basic.primary.button:active, .ui.basic.primary.buttons .active.button, .ui.basic.primary.active.button, .ui.basic.buttons .button:hover, .ui.basic.button:hover,.ui.basic.primary.buttons .button:focus, .ui.basic.primary.button:focus {
+    box-shadow: 0px 0px 0px 1px #368cda inset !important;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #368cda;
+    border-color: #368cda;
+}
+.pagination>li>a, .pagination>li>span {
+    color: #368cda;
+}
+
+        
+        .footer {
+            max-height: max-content;
+        }
+
+    </style>
+
+             <style>
+
+        @media  only screen and (max-width: 991px) {
+            .ui.visible.wiki.sidebar {
+                display:none;
+            }
+            .ui.animating.sidebar.top:not(.visible) {
+                display:none;
+            }
+            .wiki-contributor-text {
+                margin-left: 12px;
+            }
+        }
+     </style>
+
+
+        
+
+        <div class="ui top menu sidebar stackable">
+            <div class="item">
+                                    <img class="ui image" style="width:26px;height:26px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/sNljssWWQoW6J88O9G37.png!/both/44x44">
+                    <span class="site-name ml-2">Go</span>
+                            </div>
+
+
+
+<form class="ui fluid category  item secondary" action="https://learnku.com/go/search" method="GET">
+  <div class="ui icon input">
+    <input class="prompt" name="q" type="text" placeholder="搜索" value="">
+    <i class="search icon"></i>
+  </div>
+</form>
+
+
+            <a href="https://learnku.com/go" class="item secondary">
+                <i class="icon list"></i> 话题列表
+            </a>
+
+                            <a href="https://learnku.com/go/wikis" class="item secondary">
+                    <i class="icon wikipedia"></i> 社区 Wiki
+                </a>
+
+                <a href="https://learnku.com/go/c/translations" class="item">
+                    <i class="icon translate"></i> 优质外文
+                </a>
+
+                <a href="https://learnku.com/go/c/jobs" class="item">
+                    <i class="icon suitcase"></i> 招聘求职
+                </a>
+
+                <a href="https://learnku.com/go/courses" class="item">
+                    <i class="icon book"></i> Go 实战教程
+                </a>
+
+                <a href="https://learnku.com/go/docs" class="item">
+                    <i class="icon text file outline"></i> 社区文档
+                </a>
+            
+                            <div class="item">
+                <a class="ui basic small button no-pjax" href="https://learnku.com/auth/login"><i class="icon user "></i> 登录 </a>
+                </div>
+
+                <div class="item">
+                <a class="ui basic small button no-pjax" href="https://learnku.com/auth/register"><i class="icon signup "></i> 注册 </a>
+                </div>
+                    </div>
+
+                                                        <div class="ui vertical sidebar menu accordion following  visible wikis hide-on-mobile book-sidemenu  pb-5" style="z-index: 2;width: 250px;">
+    <div class="item lh-2">
+        <b><a href="https://learnku.com/docs/gin-gonic/2019" class="rm-link-color"><img class="ui avatar image mr-2" src="https://cdn.learnku.com/uploads/images/201807/14/1/K1ijsbTBcU.png!/both/200x200" style="width:20px;height:20px;margin-top: -2px;">Gin 框架中文文档</a></b>
+    </div>
+
+    <div class="item lh-2 text-center">
+        <div class="ui button  mini basic icon open-all">
+            <i class="icon sort"></i> 展开或关闭
+        </div>
+    </div>
+
+    
+    
+        
+        <div class="item py-2">
+            <div class="header title fw-normal fs-normal mb-0 chapter-position-1104">
+                                    正文
+                
+                <i class="dropdown icon mt-0"></i>
+            </div>
+
+            <div class="menu article content">
+                
+                    
+                    <a
+                    id="article-link-1"
+                    data-index="1"
+                    data-chapter-id="1104"
+                    data-previous="article-link-0"
+                    data-next="article-link-2"
+                    class="item  article-position-6149" href="https://learnku.com/docs/gin-gonic/2019/go-gin-document/6149">
+
+                                                    Go Gin 文档
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-2"
+                    data-index="2"
+                    data-chapter-id="1104"
+                    data-previous="article-link-1"
+                    data-next="article-link-3"
+                    class="item  article-position-6150" href="https://learnku.com/docs/gin-gonic/2019/introduction/6150">
+
+                                                    Gin 简介
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-3"
+                    data-index="3"
+                    data-chapter-id="1104"
+                    data-previous="article-link-2"
+                    data-next="article-link-4"
+                    class="item  article-position-6151" href="https://learnku.com/docs/gin-gonic/2019/quickstart/6151">
+
+                                                    快速入门
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-4"
+                    data-index="4"
+                    data-chapter-id="1104"
+                    data-previous="article-link-3"
+                    data-next="article-link-5"
+                    class="item  article-position-6152" href="https://learnku.com/docs/gin-gonic/2019/benchmarks/6152">
+
+                                                    性能测试
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-5"
+                    data-index="5"
+                    data-chapter-id="1104"
+                    data-previous="article-link-4"
+                    data-next="article-link-6"
+                    class="item  article-position-6153" href="https://learnku.com/docs/gin-gonic/2019/features/6153">
+
+                                                    特性
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-6"
+                    data-index="6"
+                    data-chapter-id="1104"
+                    data-previous="article-link-5"
+                    data-next="article-link-7"
+                    class="item  article-position-6154" href="https://learnku.com/docs/gin-gonic/2019/jsoniter/6154">
+
+                                                    Jsoniter 
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-7"
+                    data-index="7"
+                    data-chapter-id="1104"
+                    data-previous="article-link-6"
+                    data-next="article-link-8"
+                    class="item  article-position-6155" href="https://learnku.com/docs/gin-gonic/2019/deployment/6155">
+
+                                                    部署
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-8"
+                    data-index="8"
+                    data-chapter-id="1104"
+                    data-previous="article-link-7"
+                    data-next="article-link-9"
+                    class="item  article-position-6156" href="https://learnku.com/docs/gin-gonic/2019/testing/6156">
+
+                                                    测试
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-9"
+                    data-index="9"
+                    data-chapter-id="1104"
+                    data-previous="article-link-8"
+                    data-next="article-link-10"
+                    class="item  article-position-6157" href="https://learnku.com/docs/gin-gonic/2019/users/6157">
+
+                                                    使用者
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-10"
+                    data-index="10"
+                    data-chapter-id="1104"
+                    data-previous="article-link-9"
+                    data-next="article-link-11"
+                    class="item  article-position-6158" href="https://learnku.com/docs/gin-gonic/2019/faq/6158">
+
+                                                    FAQ
+                                            </a>
+
+                    
+
+
+                    
+                            </div>
+        </div>
+    
+        
+        <div class="item py-2">
+            <div class="header title fw-normal fs-normal mb-0 chapter-position-1105">
+                                    示例
+                
+                <i class="dropdown icon mt-0"></i>
+            </div>
+
+            <div class="menu article content">
+                
+                    
+                    <a
+                    id="article-link-11"
+                    data-index="11"
+                    data-chapter-id="1105"
+                    data-previous="article-link-10"
+                    data-next="article-link-12"
+                    class="item  article-position-6159" href="https://learnku.com/docs/gin-gonic/2019/examples-ascii-json/6159">
+
+                                                    AsciiJSON
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-12"
+                    data-index="12"
+                    data-chapter-id="1105"
+                    data-previous="article-link-11"
+                    data-next="article-link-13"
+                    class="item  article-position-6160" href="https://learnku.com/docs/gin-gonic/2019/examples-html-rendering/6160">
+
+                                                    HTML 渲染
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-13"
+                    data-index="13"
+                    data-chapter-id="1105"
+                    data-previous="article-link-12"
+                    data-next="article-link-14"
+                    class="item  article-position-6161" href="https://learnku.com/docs/gin-gonic/2019/examples-http2-server-push/6161">
+
+                                                    HTTP2 server 推送
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-14"
+                    data-index="14"
+                    data-chapter-id="1105"
+                    data-previous="article-link-13"
+                    data-next="article-link-15"
+                    class="item  article-position-6162" href="https://learnku.com/docs/gin-gonic/2019/examples-jsonp/6162">
+
+                                                    JSONP
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-15"
+                    data-index="15"
+                    data-chapter-id="1105"
+                    data-previous="article-link-14"
+                    data-next="article-link-16"
+                    class="item  article-position-6163" href="https://learnku.com/docs/gin-gonic/2019/examples-multipart-urlencoded-binding/6163">
+
+                                                    Multipart/Urlencoded 绑定
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-16"
+                    data-index="16"
+                    data-chapter-id="1105"
+                    data-previous="article-link-15"
+                    data-next="article-link-17"
+                    class="item  article-position-6164" href="https://learnku.com/docs/gin-gonic/2019/examples-multipart-urlencoded-form/6164">
+
+                                                    Multipart/Urlencoded 表单
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-17"
+                    data-index="17"
+                    data-chapter-id="1105"
+                    data-previous="article-link-16"
+                    data-next="article-link-18"
+                    class="item  article-position-6165" href="https://learnku.com/docs/gin-gonic/2019/examples-pure-json/6165">
+
+                                                    PureJSON
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-18"
+                    data-index="18"
+                    data-chapter-id="1105"
+                    data-previous="article-link-17"
+                    data-next="article-link-19"
+                    class="item  article-position-6166" href="https://learnku.com/docs/gin-gonic/2019/examples-query-and-post-form/6166">
+
+                                                    Query 和 post form
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-19"
+                    data-index="19"
+                    data-chapter-id="1105"
+                    data-previous="article-link-18"
+                    data-next="article-link-20"
+                    class="item  article-position-6167" href="https://learnku.com/docs/gin-gonic/2019/examples-secure-json/6167">
+
+                                                    SecureJSON
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-20"
+                    data-index="20"
+                    data-chapter-id="1105"
+                    data-previous="article-link-19"
+                    data-next="article-link-21"
+                    class="item  article-position-6168" href="https://learnku.com/docs/gin-gonic/2019/examples-rendering/6168">
+
+                                                    XML/JSON/YAML/ProtoBuf 渲染
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-21"
+                    data-index="21"
+                    data-chapter-id="1105"
+                    data-previous="article-link-20"
+                    data-next="article-link-22"
+                    class="item  article-position-6169" href="https://learnku.com/docs/gin-gonic/2019/examples-upload-file-single-file/6169">
+
+                                                    单文件上传
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-22"
+                    data-index="22"
+                    data-chapter-id="1105"
+                    data-previous="article-link-21"
+                    data-next="article-link-23"
+                    class="item  article-position-6170" href="https://learnku.com/docs/gin-gonic/2019/examples-upload-file-multiple-file/6170">
+
+                                                    多文件上传
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-23"
+                    data-index="23"
+                    data-chapter-id="1105"
+                    data-previous="article-link-22"
+                    data-next="article-link-24"
+                    class="item  article-position-6171" href="https://learnku.com/docs/gin-gonic/2019/examples-without-middleware/6171">
+
+                                                    不使用默认的中间件
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-24"
+                    data-index="24"
+                    data-chapter-id="1105"
+                    data-previous="article-link-23"
+                    data-next="article-link-25"
+                    class="item  article-position-6172" href="https://learnku.com/docs/gin-gonic/2019/examples-serving-data-from-reader/6172">
+
+                                                    从 reader 读取数据
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-25"
+                    data-index="25"
+                    data-chapter-id="1105"
+                    data-previous="article-link-24"
+                    data-next="article-link-26"
+                    class="item  article-position-6173" href="https://learnku.com/docs/gin-gonic/2019/examples-graceful-restart-or-stop/6173">
+
+                                                    优雅地重启或停止
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-26"
+                    data-index="26"
+                    data-chapter-id="1105"
+                    data-previous="article-link-25"
+                    data-next="article-link-27"
+                    class="item  article-position-6174" href="https://learnku.com/docs/gin-gonic/2019/examples-using-basicauth-middleware/6174">
+
+                                                    使用 BasicAuth 中间件
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-27"
+                    data-index="27"
+                    data-chapter-id="1105"
+                    data-previous="article-link-26"
+                    data-next="article-link-28"
+                    class="item  article-position-6175" href="https://learnku.com/docs/gin-gonic/2019/examples-http-method/6175">
+
+                                                    使用 HTTP 方法
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-28"
+                    data-index="28"
+                    data-chapter-id="1105"
+                    data-previous="article-link-27"
+                    data-next="article-link-29"
+                    class="item  article-position-6176" href="https://learnku.com/docs/gin-gonic/2019/examples-using-middleware/6176">
+
+                                                    使用中间件
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-29"
+                    data-index="29"
+                    data-chapter-id="1105"
+                    data-previous="article-link-28"
+                    data-next="article-link-30"
+                    class="item  article-position-6177" href="https://learnku.com/docs/gin-gonic/2019/examples-only-bind-query-string/6177">
+
+                                                    只绑定 url 查询字符串
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-30"
+                    data-index="30"
+                    data-chapter-id="1105"
+                    data-previous="article-link-29"
+                    data-next="article-link-31"
+                    class="item  article-position-6178" href="https://learnku.com/docs/gin-gonic/2019/examples-goroutines-inside-a-middleware/6178">
+
+                                                    在中间件中使用 Goroutine
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-31"
+                    data-index="31"
+                    data-chapter-id="1105"
+                    data-previous="article-link-30"
+                    data-next="article-link-32"
+                    class="item  article-position-6179" href="https://learnku.com/docs/gin-gonic/2019/examples-multiple-template/6179">
+
+                                                    多模板
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-32"
+                    data-index="32"
+                    data-chapter-id="1105"
+                    data-previous="article-link-31"
+                    data-next="article-link-33"
+                    class="item  article-position-6180" href="https://learnku.com/docs/gin-gonic/2019/examples-write-log/6180">
+
+                                                    如何记录日志
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-33"
+                    data-index="33"
+                    data-chapter-id="1105"
+                    data-previous="article-link-32"
+                    data-next="article-link-34"
+                    class="item  article-position-6181" href="https://learnku.com/docs/gin-gonic/2019/examples-define-format-for-the-log-of-routes/6181">
+
+                                                    定义路由日志的格式
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-34"
+                    data-index="34"
+                    data-chapter-id="1105"
+                    data-previous="article-link-33"
+                    data-next="article-link-35"
+                    class="item  article-position-6182" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-body-into-dirrerent-structs/6182">
+
+                                                    将 request body 绑定到不同的结构体中
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-35"
+                    data-index="35"
+                    data-chapter-id="1105"
+                    data-previous="article-link-34"
+                    data-next="article-link-36"
+                    class="item  article-position-6183" href="https://learnku.com/docs/gin-gonic/2019/examples-support-lets-encrypt/6183">
+
+                                                    支持 Let&#039;s Encrypt
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-36"
+                    data-index="36"
+                    data-chapter-id="1105"
+                    data-previous="article-link-35"
+                    data-next="article-link-37"
+                    class="item  article-position-6184" href="https://learnku.com/docs/gin-gonic/2019/examples-map-as-querystring-or-postform/6184">
+
+                                                    映射查询字符串或表单参数
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-37"
+                    data-index="37"
+                    data-chapter-id="1105"
+                    data-previous="article-link-36"
+                    data-next="article-link-38"
+                    class="item  article-position-6185" href="https://learnku.com/docs/gin-gonic/2019/examples-querystring-param/6185">
+
+                                                    查询字符串参数
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-38"
+                    data-index="38"
+                    data-chapter-id="1105"
+                    data-previous="article-link-37"
+                    data-next="article-link-39"
+                    class="item  article-position-6186" href="https://learnku.com/docs/gin-gonic/2019/examples-binding-and-validation/6186">
+
+                                                    模型绑定和验证
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-39"
+                    data-index="39"
+                    data-chapter-id="1105"
+                    data-previous="article-link-38"
+                    data-next="article-link-40"
+                    class="item  article-position-6187" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-html-checkbox/6187">
+
+                                                    绑定 HTML 复选框
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-40"
+                    data-index="40"
+                    data-chapter-id="1105"
+                    data-previous="article-link-39"
+                    data-next="article-link-41"
+                    class="item  article-position-6188" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-uri/6188">
+
+                                                    绑定 Uri
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-41"
+                    data-index="41"
+                    data-chapter-id="1105"
+                    data-previous="article-link-40"
+                    data-next="article-link-42"
+                    class="item  article-position-6189" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-query-or-post/6189">
+
+                                                    绑定查询字符串或表单数据
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-42"
+                    data-index="42"
+                    data-chapter-id="1105"
+                    data-previous="article-link-41"
+                    data-next="article-link-43"
+                    class="item  article-position-6190" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-form-data-request-with-custom-struct/6190">
+
+                                                    绑定表单数据至自定义结构体
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-43"
+                    data-index="43"
+                    data-chapter-id="1105"
+                    data-previous="article-link-42"
+                    data-next="article-link-44"
+                    class="item  article-position-6191" href="https://learnku.com/docs/gin-gonic/2019/examples-custom-http-config/6191">
+
+                                                    自定义 HTTP 配置
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-44"
+                    data-index="44"
+                    data-chapter-id="1105"
+                    data-previous="article-link-43"
+                    data-next="article-link-45"
+                    class="item  article-position-6192" href="https://learnku.com/docs/gin-gonic/2019/examples-custom-middleware/6192">
+
+                                                    自定义中间件
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-45"
+                    data-index="45"
+                    data-chapter-id="1105"
+                    data-previous="article-link-44"
+                    data-next="article-link-46"
+                    class="item  article-position-6193" href="https://learnku.com/docs/gin-gonic/2019/examples-custom-validators/6193">
+
+                                                    自定义验证器
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-46"
+                    data-index="46"
+                    data-chapter-id="1105"
+                    data-previous="article-link-45"
+                    data-next="article-link-47"
+                    class="item  article-position-6194" href="https://learnku.com/docs/gin-gonic/2019/examples-cookie/6194">
+
+                                                    设置和获取 Cookie
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-47"
+                    data-index="47"
+                    data-chapter-id="1105"
+                    data-previous="article-link-46"
+                    data-next="article-link-48"
+                    class="item  article-position-6195" href="https://learnku.com/docs/gin-gonic/2019/examples-param-in-path/6195">
+
+                                                    路由参数
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-48"
+                    data-index="48"
+                    data-chapter-id="1105"
+                    data-previous="article-link-47"
+                    data-next="article-link-49"
+                    class="item  article-position-6196" href="https://learnku.com/docs/gin-gonic/2019/examples-grouping-routes/6196">
+
+                                                    路由组
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-49"
+                    data-index="49"
+                    data-chapter-id="1105"
+                    data-previous="article-link-48"
+                    data-next="article-link-50"
+                    class="item  article-position-6197" href="https://learnku.com/docs/gin-gonic/2019/examples-run-multiple-service/6197">
+
+                                                    运行多个服务
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-50"
+                    data-index="50"
+                    data-chapter-id="1105"
+                    data-previous="article-link-49"
+                    data-next="article-link-51"
+                    class="item  article-position-6198" href="https://learnku.com/docs/gin-gonic/2019/examples-redirects/6198">
+
+                                                    重定向
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-51"
+                    data-index="51"
+                    data-chapter-id="1105"
+                    data-previous="article-link-50"
+                    data-next="article-link-52"
+                    class="item  article-position-6199" href="https://learnku.com/docs/gin-gonic/2019/examples-serving-static-files/6199">
+
+                                                    静态文件服务
+                                            </a>
+
+                    
+
+
+                    
+                
+                    
+                    <a
+                    id="article-link-52"
+                    data-index="52"
+                    data-chapter-id="1105"
+                    data-previous="article-link-51"
+                    data-next="article-link-53"
+                    class="item  article-position-6200" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-single-binary-with-template/6200">
+
+                                                    静态资源嵌入
+                                            </a>
+
+                    
+
+
+                    
+                            </div>
+        </div>
+    
+</div>                                    
+        <div class="pusher">
+
+            <div class="main container">
+
+<nav class="ui main borderless menu top stackable topnav" id="topnav">
+    <div class="ui container">
+
+      <div class="ui inline scrolling community-nav dropdown mr-2" style="padding-left: 22px;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;">
+        <div class="text site-logo" style="color:#888888;display: flex;">
+
+                            <img class="ui image" style="width:26px;height:26px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/sNljssWWQoW6J88O9G37.png!/both/44x44">
+                <span class="site-name">Go</span>
+                        <i class="dropdown icon ml-3"></i>
+        </div>
+        <div class="menu ml-4 communities" style="max-height: 520px;padding: 8px;">
+
+            <div class="ui icon search input" style="width: 172px;float:left;">
+              <i class="search icon"></i>
+              <input type="text" placeholder="搜索社区">
+            </div>
+
+              <a class="item pr-3 mt-2" href="https://learnku.com">
+                <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201901/24/1/OyBnfB2vlk.png!/both/44x44"> 首页
+              </a>
+
+              <a class="item pr-3 mt-2" href="https://learnku.com/communities">
+                <i class="icon sitemap" style="margin-right: 12px;font-size: 16px!important;"></i> <span class="text">所有社区</span>
+
+                                    <div class="ui red tiny left pointing label " style="position: relative;top: -1px;margin-left: 4px;">NEW</div>
+                              </a>
+
+              <div class="divider clearfix"></div>
+
+                        
+                                        <a class="item" href="https://learnku.com/laravel" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/WtC3cPLHzMbKRSZnagU9.png!/both/44x44"> Laravel
+                      </a>
+                                        <a class="item" href="https://learnku.com/go" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/sNljssWWQoW6J88O9G37.png!/both/44x44"> Go
+                      </a>
+                                        <a class="item" href="https://learnku.com/vuejs" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/hIZjRRdF8oVYZy69XJnT.png!/both/44x44"> Vue.js
+                      </a>
+                                        <a class="item" href="https://learnku.com/php" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/Y7fElYYwCFjTTXCdwPNW.png!/both/44x44"> PHP
+                      </a>
+                                        <a class="item" href="https://learnku.com/python" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/mTBLIP7o0gVGn3ZCphpN.png!/both/44x44"> Python
+                      </a>
+                                        <a class="item" href="https://learnku.com/ios" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/0MWz89TgPG0AaPbULcWT.png!/both/44x44"> iOS
+                      </a>
+                                        <a class="item" href="https://learnku.com/mysql" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201908/18/1/yAH1hJ3pZF.png!/both/44x44"> MySQL
+                      </a>
+                                        <a class="item" href="https://learnku.com/weapp" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201908/12/1/NsscHkb1Mo.jpg!/both/44x44"> 微信小程序
+                      </a>
+                                        <a class="item" href="https://learnku.com/lifecoder" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/iAphQ2R2SYGDdQ6cd7aD.png!/both/44x44"> 终身编程者
+                      </a>
+                                        <a class="item" href="https://learnku.com/mac" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/wZYaiK95EtvSyN8yliRJ.jpeg!/both/44x44"> Mac User
+                      </a>
+                                        <a class="item" href="https://learnku.com/java" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/h3Xef7s3mLKYmqwBRIiA.png!/both/44x44"> Java
+                      </a>
+                                        <a class="item" href="https://learnku.com/f2e" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/DGHjM6p2qdamHmFJZt9g.jpg!/both/44x44"> F2E 前端
+                      </a>
+                                        <a class="item" href="https://learnku.com/elasticsearch" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201908/10/25425/QdtUV2rox6.png!/both/44x44"> Elasticsearch
+                      </a>
+                                        <a class="item" href="https://learnku.com/rust" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/Qj48vezkYfZM1ZM5Y75X.png!/both/44x44"> Rust
+                      </a>
+                                        <a class="item" href="https://learnku.com/lk" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/b1qLi8CKYnkipeMwdvPU.png!/both/44x44"> LK
+                      </a>
+                                        <a class="item" href="https://learnku.com/flutter" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/Jd5vOXUVrCpP4zT90EwX.jpg!/both/44x44"> Flutter
+                      </a>
+                                        <a class="item" href="https://learnku.com/techwriting" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/nq5yC7ux49YEbaDTQilo.png!/both/44x44"> 写作的艺术
+                      </a>
+                                        <a class="item" href="https://learnku.com/leetcode" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201909/24/16817/yJFox5fIbz.jpeg!/both/44x44"> LeetCode（力扣）
+                      </a>
+                                        <a class="item" href="https://learnku.com/nodejs" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201908/09/1/DUgy6bxrAk.png!/both/44x44"> Node.js
+                      </a>
+                                        <a class="item" href="https://learnku.com/spring" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/6boEYZFYLzAxXXwzKgvo.png!/both/44x44"> Spring
+                      </a>
+                                        <a class="item" href="https://learnku.com/server" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/pwwWCCpPeKm8z3HEubmo.png!/both/44x44"> Server
+                      </a>
+                                        <a class="item" href="https://learnku.com/buffalo" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/7EKG65w4CxOppJgBg5fU.png!/both/44x44"> Buffalo
+                      </a>
+                                        <a class="item" href="https://learnku.com/devtools" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/0QFgKXFJBOmsQNf47XOY.png!/both/44x44"> DevTools
+                      </a>
+                                        <a class="item" href="https://learnku.com/database" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/ceowUfx7bxLyyng5ykyu.png!/both/44x44"> Database
+                      </a>
+                                        <a class="item" href="https://learnku.com/pm" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com/uploads/images/201909/10/1/fWW5khCQc2.png!/both/44x44"> 产品经理
+                      </a>
+                                        <a class="item" href="https://learnku.com/tensorflow" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/nd6liA9wYbKq2qgjCNkK.png!/both/44x44"> TensorFlow
+                      </a>
+                                        <a class="item" href="https://learnku.com/kotlin" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/Ryu26W0oD4PPEwffiXAd.png!/both/44x44"> Kotlin
+                      </a>
+                                        <a class="item" href="https://learnku.com/ai" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/wIJbVQ4zbj4KCWL9JFFt.png!/both/44x44"> AI
+                      </a>
+                                        <a class="item" href="https://learnku.com/security" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/qXmY3Rxq5P06BcPT89D2.png!/both/44x44"> Security
+                      </a>
+                                        <a class="item" href="https://learnku.com/rpi" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/vFzRGXNPaXAaF4blGlVr.jpg!/both/44x44"> Raspberry Pi
+                      </a>
+                                        <a class="item" href="https://learnku.com/cs" style="padding-right: 2.2em!important;">
+                        <img class="ui image" style="width:20px;height:20px;margin-top:-2px;" src="https://cdn.learnku.com//uploads/communities/BTBwRdYCj8UFXIjMqEbG.jpg!/both/44x44"> Computer Science
+                      </a>
+                              
+
+        </div>
+    </div>
+
+        <a class="item header right menu " style="display:none">
+            <i class="icon align justify"></i>
+        </a>
+
+        <a href="https://learnku.com/go" class="item secondary">
+    社区
+</a>
+
+
+
+
+                <a href="https://learnku.com/go/wikis" class="item secondary">
+                    Wiki
+                </a>
+    
+    <div class="ui simple item dropdown article stackable nav-user-item secondary">
+        文档  <i class="dropdown icon"></i>
+
+        <div class="ui menu stackable">
+            <a href="https://learnku.com/go/docs" class="item">
+                <i class="icon home"></i> 社区文档首页
+            </a>
+
+                            <a class="item" href="https://learnku.com/docs/effective-go/2020" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201912/06/1/g4O1CkGc2B.png!/both/200x200" style="width:20px;height:20px;">
+                    《高效的 Go 编程 Effective Go》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/go-blog" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201912/28/1/3CTV7kaXtg.png!/both/200x200" style="width:20px;height:20px;">
+                    《Go Blog 中文翻译》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/the-little-go-book" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201807/09/1/7ZpHvbghuV.jpg!/both/200x200" style="width:20px;height:20px;">
+                    《Go 简易教程》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/gobyexample/2020" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201912/07/1/2zrnUUEy5O.png!/both/200x200" style="width:20px;height:20px;">
+                    《Go 编程实例 Go by Example》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/the-way-to-go" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201805/11/1/ZnrA2VK0SN.png!/both/200x200" style="width:20px;height:20px;">
+                    《Go 入门指南》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/go-fundamental-programming" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201805/12/1/cqO2hVEMtp.png!/both/200x200" style="width:20px;height:20px;">
+                    《Go 编程基础（视频）》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/build-web-application-with-golang" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201805/16/1/mIe9zcWQM4.png!/both/200x200" style="width:20px;height:20px;">
+                    《Go Web 编程》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/iris-go/10" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201807/13/1/JV7EhZLizp.png!/both/200x200" style="width:20px;height:20px;">
+                    《Iris 框架中文文档》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/learn-go-with-tests" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201911/21/36517/aviegH16FE.png!/both/200x200" style="width:20px;height:20px;">
+                    《通过测试学习 Go 编程》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/gin-gonic/2019" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201807/14/1/K1ijsbTBcU.png!/both/200x200" style="width:20px;height:20px;">
+                    《Gin 框架中文文档》
+                </a>
+                            <a class="item" href="https://learnku.com/docs/gorm/2018" style="padding-right: 36px!important;">
+                    <img class="ui avatar image" src="https://cdn.learnku.com/uploads/images/201807/30/1/a3e946EpRi.png!/both/200x200" style="width:20px;height:20px;">
+                    《GORM 中文文档》
+                </a>
+                    </div>
+    </div>
+
+
+<form class="ui fluid category search item secondary hide-on-991" action="https://learnku.com/go/search" method="GET">
+  <div class="ui icon input">
+    <input class="prompt" name="q" type="text" placeholder="搜索" value="">
+    <i class="search icon"></i>
+  </div>
+  <div class="results"></div>
+</form>
+
+<div class=" right menu stackable secondary">
+            <div class="item rm-link-color">
+            <a class="mr-4 no-pjax login_required" href="https://learnku.com/auth/login"><i class="icon sign in "></i> 登录 </a>
+            <a class="no-pjax" href="https://learnku.com/auth/register" style="margin-left: 10px;"><i class="icon user add "></i> 注册 </a>
+        </div>
+    </div>
+
+    </div>
+
+    </nav>
+
+                
+                
+                                                                                                                                            
+
+                
+                                    <div class="mb-3 hide show-on-wechat-view">
+                        <div class="ui centered grid container message-container">
+                            <div class="sixteen wide column pt-0 pb-0">
+                                <a class="ui button fluid green wechat-login-link" href="https://learnku.com/auth/oauth?driver=wechat"><i class="icon wechat " ></i> 微信登录</a>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+    <script type="text/javascript">
+        Config.search_type = 'category';
+        Config.article_position_id = 6187;
+        Config.content.authorName = 'Go 技术论坛文档：《Gin 框架中文文档（2019）》';
+            </script>
+
+    
+<div class="ui centered grid container stackable">
+
+    <div class="twelve wide column book-main-column main-column">
+
+        <div class="ui segment article-content">
+
+
+    
+            
+            <div class="extra-padding">
+
+                <div class="left ui rail hide-on-mobile operation-sticker" style="left: -68px;top: 0px;width: 40px;">
+
+        <div class="ui sticky topic-operation">
+            <div class="ui vertical icon menu border-0">
+
+              <a class="item text-mute ui action book-article-star login_required popover rm-tdu rm-link-color text-mute" data-position="right center" data-act="star" data-id="6187" href="javascript:;" data-html="                        点赞
+                    ">
+                <i class="thumbs up icon fs-large state "></i>
+                <span class="count vote-count fs-small mt-2 display-inline-block">0</span>
+              </a>
+
+              <a class="item text-mute ui action login_required popover rm-link-color text-mute" data-position="right center" data-id="6187" href="#replies" onclick="scrollToAnchor('replies')" title="评论">
+                <i class="comments icon fs-large"></i>
+                <span class="fs-small mt-2 display-inline-block">0</span>
+              </a>
+
+              <a class="item text-mute ui action show-toc popover rm-link-color text-mute" data-position="right center" data-id="6187" href="javascript:void();" title="内容目录" style="display:none">
+                <i class="unordered list icon fs-large"></i>
+              </a>
+
+        <a class="popover item text-mute ui " data-position="right center"  title="发现错别字？请点此纠错改进"  href="https://learnku.com/courses/articles/6187/patches/create" target="_blank">
+          <div class="top aligned content">
+              <i class="icon fs-large send"></i>
+          </div>
+        </a>
+
+
+    </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+<h1>
+    <i class="grey file text outline icon"></i>
+    <span style="line-height: 34px;">
+                    绑定 HTML 复选框
+            </span>
+
+    
+
+
+
+
+
+
+
+    <div class="ui right floated buttons actions" style="margin-right: 4px">
+        <div class="ui dropdown simple basic label" style="margin-left:20px">
+          <div class="text">2019</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+                            <a class="item" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-html-checkbox?cpo=2">2019</a>
+                            <a class="item" href="https://learnku.com/docs/gin-gonic/2018/examples-bind-html-checkbox?cpo=2">2018</a>
+                      </div>
+        </div>
+    </div>
+</h1>
+
+
+    <p class="book-article-meta">
+
+        <a href="https://learnku.com/docs/gin-gonic/2019"><i class="icon book"></i> Gin 框架中文文档</a>
+
+        <span class="divider">/</span>
+
+    
+                <div class="ui divider"></div>
+
+                <div class="ui readme markdown-body content-body fluidbox-content">
+
+                    
+                    
+                    
+                <div class="toc-wraper ui  card column author-box grid pt-2" style="display:none">
+                        <a href="javascript:void(0);" class="close-toc pull-right" style="width: 20px;position: absolute;right: 7px;top: 3px;margin-bottom: 20px;">
+                            <i class="icon remove text-mute "></i>
+                        </a>
+                        <div id="toc" class="toc-content">
+                        </div>
+                    </div>
+
+                    <p>参见<a href="https://github.com/gin-gonic/gin/issues/129#issuecomment-124260092" rel="nofollow noopener noreferrer">详细信息</a></p>
+<p>main.go</p>
+<pre><code class="language-php">...
+
+type myForm struct {
+    Colors []string `form:"colors[]"`
+}
+
+...
+
+func formHandler(c *gin.Context) {
+    var fakeForm myForm
+    c.ShouldBind(&amp;fakeForm)
+    c.JSON(200, gin.H{"color": fakeForm.Colors})
+}
+
+...</code></pre>
+<p>form.html</p>
+<pre><code class="language-php">&lt;form action="/" method="POST"&gt;
+    &lt;p&gt;Check some colors&lt;/p&gt;
+    &lt;label for="red"&gt;Red&lt;/label&gt;
+    &lt;input type="checkbox" name="colors[]" value="red" id="red"&gt;
+    &lt;label for="green"&gt;Green&lt;/label&gt;
+    &lt;input type="checkbox" name="colors[]" value="green" id="green"&gt;
+    &lt;label for="blue"&gt;Blue&lt;/label&gt;
+    &lt;input type="checkbox" name="colors[]" value="blue" id="blue"&gt;
+    &lt;input type="submit"&gt;
+&lt;/form&gt;</code></pre>
+<p>结果:</p>
+<pre><code class="language-php">{"color":["red","green","blue"]}</code></pre>
+
+                    
+                    <div style="position: absolute!important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px,1px,1px,1px);"><p>本文章首发在 <a href="https://learnku.com/">LearnKu.com</a> 网站上。</p></div>
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+
+                    <div>
+                                <a class="ui basic button small article-pager-btn pull-left popover " data-content="模型绑定和验证" href="https://learnku.com/docs/gin-gonic/2019/examples-binding-and-validation/6186"><i class="icon arrow left"></i> 上一篇</a>
+                <a class="ui basic button small article-pager-btn pull-right popover " data-content="绑定 Uri" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-uri/6188">下一篇 <i class="icon arrow right"></i></a>
+                <div class="clearfix"></div>
+            </div>
+        
+        <div class="ui message basic share-wrap">
+
+            <a class="ui button default small basic login_required" href="https://learnku.com/docs/gin-gonic/6187.md" target="_blank"><i class="icon file text outline"></i> Markdown 文本</a>
+
+            <div class="social-share" style="line-height: 39px;">
+                            </div>
+
+                            <div class="pull-right" style="margin-top: 5px;">
+                    <span>
+
+                        <a class="ui button primary small basic login_required popover" title="瑕疵或优化，请提交改进" href="https://learnku.com/courses/articles/6187/patches/create" target="_blank"><i class="icon send"></i> 纠错改进</a>
+
+                    </span>
+                </div>
+            
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="ui message basic  pt-2">
+    <div class="ui comments pt-2" style="max-width: inherit;">
+      <div class="comment">
+        <a class="avatar" href="https://learnku.com/users/1">
+            <img class="" src="https://cdn.learnku.com/uploads/avatars/1_1530614766.png!/both/100x100" />
+        </a>
+        <div class="content pt-2" style="margin-left: 66px;">
+
+            <div class="meta" style="max-width:100%;display: inline-flex;">
+          <a class="author" href="https://learnku.com/users/1">
+              Summer
+          </a>
+
+          <div class="metadata lh-2">
+
+                            <a target="_blank" class="ui label label-success hide-on-mobile role tiny basic fw-normal green" style="font-size: 11px;padding: 3px 5px;" href="https://learnku.com/roles/Founder">
+                    Founder
+                </a>
+            
+            <a class="ml-1 rm-link-color mr-1 hide-on-mobile" target="_blank" href="https://learnku.com/users/1/reputation_logs" target="_blank">
+                <i class="icon trophy"></i>10.2k 声望
+          </a>
+
+            <div class="date">
+                <div class="description">维护者 @ LearnKu.com</div>
+            </div>
+
+          </div>
+          </div>
+          <div class="text mt-2 rm-link-color">
+
+            我的灵智天成外包工作室有提供产品策划、设计、开发（PHP/Go/Java）、App 开发等服务。
+
+            
+            <a class="ui basic button small primary pull-right hide-on-mobile ui popover" style="position: relative;top: -19px;" target="_blank" href="https://learnku.com/contact?code=outsource">
+               <i class="icon chat"></i> <span class="state"> 问询</span>
+            </a>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+</div>
+
+
+<div class="ui message basic text-center voted-box">
+    <div class="buttons">
+        <div class="ui button book-article-kb-star-big basic primary  login_required" data-act="star" data-id="6187"><i class="icon thumbs up"></i> <span class="state">点赞</span></div>
+    </div>
+    <div class="voted-users">
+                    </div>
+</div>
+
+
+    
+
+<div class="ui threaded comments comment-list " name="topics-list" id="topics-list">
+
+    <div class="ui divider horizontal grey" id="replies"><i class="icon comments"></i> 讨论数量: 0</div>
+
+        
+            
+            <a class="ui button green pull-left open-discussion" href="https://learnku.com/go/topics/create?book_id=226&amp;article_id=6187" target="_blank">
+              <i class="icon write"></i>
+              发起讨论
+            </a>
+
+            
+
+            <a style="margin-top:8px" class="ml-3 rm-link-color display-inline-block" id="show-version-topics" href="https://learnku.com/docs/gin-gonic/2019/examples-bind-html-checkbox/6187?show_current_version=yes#topics-list">
+                <i class="icon filter"></i>
+                 只看当前版本
+            </a>
+
+                <br>
+    <br>
+            <br>
+
+
+    <div class="ui message basic text-center voted-box">
+        <div class="empty-block">暂无话题~</div>
+    </div>
+
+</div>
+
+
+    <div class="wiki navigator hide-on-mobile">
+        <a href="javascript:;" data-id="6187" title="⬅ 快捷键" class="ui popover article-wiki-pager-btn circular ui icon button big page-btn page-btn-left" style="position: absolute;">
+            <i class="icon chevron left"></i>
+        </a>
+        <a href="javascript:;" data-id="6187" title="快捷键 ➡" class="ui popover article-wiki-pager-btn circular ui icon button big page-btn page-btn-right" style="position: absolute;">
+            <i class="icon chevron right"></i>
+        </a>
+    </div>
+
+    </div>
+
+    
+    
+</div>
+
+            </div>
+
+            <div class="ui inverted vertical footer segment">
+                <div class="ui center aligned container">
+
+                
+                    <div class="ui stackable inverted divided grid">
+                        <div class="four wide column">
+                            <h4 class="ui inverted header">
+                                <img src="https://cdn.learnku.com/uploads/images/201908/22/1/oVrAoOQ4Vc.png!/fw/40" alt="" style="width: 32px;border-radius: 6px;position: relative;top: -5px;">
+                                关于 LearnKu
+                            </h4>
+                            <div class="ui inverted  text-center">
+                                <div class="lh-3">LearnKu 是终身编程者的修道场</div>
+                                <div class="lh-3">摒弃世俗浮躁，追求技术精湛</div>
+                            </div>
+
+                            <div class="ui inverted  text-center mt-3 rm-link-color tdu">
+                                <i class="icon birthday"></i> <a href="https://learnku.com/articles/28735" >LearnKu 诞生的故事</a>
+                            </div>
+                        </div>
+                        <div class="four wide column">
+                            <h4 class="ui inverted header">资源推荐</h4>
+                            <div class="ui inverted link list">
+                                <li class="mb-1">
+                                    <a class="item" href="https://learnku.com/docs/guide">
+                                        《社区使用指南》
+                                    </a>
+                                </li>
+                                <li class="mb-1">
+                                    <a class="item" href="https://learnku.com/docs/writing-docs">
+                                        《文档撰写指南》
+                                    </a>
+                                </li>
+                                <li class="mb-1">
+                                    <a class="item" href="https://learnku.com/docs/guide/protocol/4992">
+                                        《LearnKu 社区规范》
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                        <div class="four wide column">
+                            <h4 class="ui inverted header">赞助商</h4>
+                            <div class="ui inverted link list">
+                                                                                                            <a href="https://passport.ucloud.cn/?invitation_code=rami45zj5kpm&amp;ytag=reZ5E7" rel="nofollow noopener noreferrer" class="item" target="_blank" style="line-height: 28px;">
+                                            <img src="https://cdn.learnku.com/uploads/banners/bQawWl3vT5dc2lYx5JZ7.png!large" title="本站服务器由 UCloud 赞助" class="ui popover" style="height: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                                        </a>
+                                                                            <a href="https://www.upyun.com/" rel="nofollow noopener noreferrer" class="item" target="_blank" style="line-height: 28px;">
+                                            <img src="https://cdn.learnku.com/uploads/banners/XPtLlZmIN1cQbLuDFEON.png!large" title="社区 CDN 赞助商" class="ui popover" style="height: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                                        </a>
+                                                                            <a href="http://www.sendcloud.net/" rel="nofollow noopener noreferrer" class="item" target="_blank" style="line-height: 28px;">
+                                            <img src="https://cdn.learnku.com/uploads/banners/JpTCK6OKYBIrBIWdtob8.png!large" title="订阅邮件赞助商：SendCloud" class="ui popover" style="height: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                                        </a>
+                                                                                                </div>
+                        </div>
+                        <div class="four wide column">
+                            <h4 class="ui inverted header">其他信息</h4>
+                            <div class="ui inverted link list">
+
+                                <li>
+                                    <a class="item" href="https://learnku.com/contact?code=outsource">
+                                        <i class="icon thumbs up"></i> 软件外包
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="item" href="https://learnku.com/docs/guide/administrator/4485" >
+                                        <i class="icon heartbeat"></i> 成为版主
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="item" href="https://learnku.com/quizzes" >
+                                        <i class="icon wpforms"></i> 所有测验
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="item" href="https://learnku.com/contact">
+                                        <i class="icon wechat" aria-hidden="true" ></i> 联系站长（反馈建议）
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui inverted section divider"></div>
+                    <div style="color: rgb(137, 137, 140);font-size:0.9em;"  class="rm-link-color">
+                        <p>
+                            <a href="http://beian.miit.gov.cn/" target="_blank">粤ICP备18099781号-6</a>
+                            <span class="mx-2">|</span>
+                            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030502004330" target="_blank"><img src="https://cdn.learnku.com/uploads/images/201908/21/1/L4ckM2CVb6.png!/fw/20" width="20" style="position: relative;top: 4px;"> 粤公网安备 44030502004330号</a>
+                            <span class="mx-2">|</span>
+                            <a href="https://learnku.com/lk">违法和不良信息举报</a>
+                        </p>
+                        <p style=" margin-top:-8px;margin-bottom: -0px;" class="ui inverted signature">
+                              由 <a href="https://learnku.com/contact" target="_blank" style="color: inherit;">Summer</a> 设计和编码 <span style="color: #e27575;font-size: 14px;">❤</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+        </div>
+
+        <div class="ui modal login small" style="width:400px;margin: 0em 0em 0em -200px;">
+          <i class="close icon"></i>
+          <div class="header">
+            <h4 class="modal-title ">
+                <img class="ui image display-inline-block mr-2" style="width:32px;height:32px;" src="https://cdn.learnku.com/uploads/images/201901/24/1/OyBnfB2vlk.png"> <span style="position: relative;top: 4px;">请登录</span>
+            </h4>
+          </div>
+          <div class="content">
+
+
+
+<form class="ui form login" role="form" method="POST" action="https://learnku.com/auth/login" accept-charset="UTF-8">
+    <input type="hidden" name="_token" value="BiIS6zyQEAbe7qCPiqg01ERpzT2VAnCFpQBuvcDt">
+    <input type="hidden" name="remember" value="yes">
+
+    <input type="hidden" name="return_back" value="no">
+
+  <div class="field">
+    <div class="ui left icon input">
+        <i class="user icon"></i>
+        <input type="text" name="username" placeholder="邮 箱 or 手 机 or 用户名" value="" required>
+      </div>
+  </div>
+  <div class="field">
+    <div class="ui left icon input">
+        <i class="lock icon"></i>
+        <input type="password" name="password" placeholder="密 码" value="" required>
+      </div>
+  </div>
+  <button class="ui primary right labeled icon button" type="submit">
+    <i class="right arrow icon"></i>
+    提交
+  </button>
+
+    <div class="pull-right mt-2 rm-link-color">
+        <a class="btn btn-link " href="https://learnku.com/auth/forget" target="_blank">
+            忘记密码?
+        </a>
+        <span class="text-mute">or</span>
+        <a class="btn btn-link " href="https://learnku.com/auth/register" target="_blank">
+            注册
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+
+
+  <div class="ui horizontal divider fs-tiny text-mute">
+    第三方账号登录
+  </div>
+
+
+
+      <a class="ui button fluid mt-2 green wechat-login-link" href="https://learnku.com/auth/oauth?driver=wechat"><i class="icon wechat " ></i> 微信登录</a>
+
+      <a class="ui button fluid mt-2 basic" id="login-required-submit" href="https://learnku.com/auth/oauth?driver=github"><i class="icon github alternate"></i> GitHub 登录</a>
+
+</form>
+          </div>
+        </div>
+
+
+<div class="ui modal small report">
+    <div class="header modal-title">内容举报</div>
+    <form class="ui form error" method="POST" action="https://learnku.com/reports" accept-charset="UTF-8">
+         <input type="hidden" name="_token" value="BiIS6zyQEAbe7qCPiqg01ERpzT2VAnCFpQBuvcDt">
+        <input name="reportable_id" type="hidden" value="">
+        <input name="reportable_type" type="hidden" value="">
+        <div class="content" style="padding: 20px;">
+            <div class="ui message warning show">
+                <i class="icon info"></i> 匿名举报，为防止滥用，仅管理员可见举报者。
+            </div>
+              <p>我要举报该<span class='modal-typename'></span>，理由是：</p>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="spam" required>
+                            <label><strong>垃圾广告</strong>：恶意灌水、广告、推广等内容</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="meaningless" required>
+                            <label><strong>无意义内容</strong>：测试、灌水、文不对题、消极内容、文章品质太差等</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="violation" required>
+                            <label><strong>违规内容</strong>：色情、暴利、血腥、敏感信息等</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="unfriendly" required>
+                            <label><strong>不友善内容</strong>：人身攻击、挑衅辱骂、恶意行为</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="vpn" required>
+                            <label><strong>科学上网</strong>：翻墙、VPN、Shadowsocks，政策风险，会被关站！</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="qa" required>
+                            <label><strong>不懂提问</strong>：提问太随意，需要再做一遍《提问的智慧》测验</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="markdown" required>
+                            <label><strong>排版混乱</strong>：没有合理使用 Markdown 编写文章，未使用代码高亮</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="copywriting" required>
+                            <label><strong>内容结构混乱</strong>：逻辑不清晰，内容混乱，难以阅读</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="title" required>
+                            <label><strong>标题随意</strong>：标题党、标题不释义</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="category" required>
+                            <label><strong>错误分类</strong>：文章分类选择错误，提问内容未选「问答」分类</label>
+                        </div>
+                    </div>
+                                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input  type="radio" name="report_type" value="other" required>
+                            <label><strong>其他理由</strong>：请补充说明</label>
+                        </div>
+                    </div>
+                              <div class="field">
+                  <textarea placeholder="请提供详尽的说明" name="reason" rows="3"></textarea>
+              </div>
+        </div>
+        <div class="actions field" style="padding: 1px 12px 25px;">
+            <button class="ui primary button" type="submit">举报</button>
+            <div class="ui cancel button">取消</div>
+        </div>
+    </form>
+</div>
+
+
+
+    </body>
+
+    
+    <!-- Scripts -->
+    <script src="https://cdn.learnku.com//build/js/1bae0f5da7e8124ea559-vendors.js"></script>
+    <script src="https://cdn.learnku.com//build/js/b5b23648b088e490ee7d-app.js"></script>
+
+    
+</html>

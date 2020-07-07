@@ -110,10 +110,14 @@ func HTMLRender() { // 这段代码的作用是，返回一个本地（服务器
 	// 有模版功能！（template）
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
+
 	router.GET("/index", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Main website",
-		})
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
+
+	router.GET("/tutorial", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "tutorial.html", gin.H{})
+	})
+
 	router.Run(":8080")
 }
