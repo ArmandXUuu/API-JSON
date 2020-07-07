@@ -7,6 +7,9 @@ import (
 
 func main() {
 	fmt.Print("11111")
-	src.RepArmandXU()
-
+	//src.RepArmandXU()
+	//src.SetupRouter()
+	//src.BasicServiceWithOneGET()
+	//src.XMLJSONYAMLPROTOBUFRender()
+	src.HTMLRender()
 }
