@@ -10,8 +10,8 @@ import (
 func RepArmandXU() {
 	fmt.Println("一个网站上的教程，简单")
 
-	r := gin.Default()
-	r.GET("/ArmandXU", func(c *gin.Context) {
+	r := gin.Default()                        //我们使用 gin.Default() 生成了一个实例，这个实例即 WSGI 应用程序
+	r.GET("/ArmandXU", func(c *gin.Context) { // 声明了一个路由，告诉Gin什么样的URL能触发传入的函数
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Hello ArmandXU !",
 		})
@@ -23,7 +23,7 @@ func RepArmandXU() {
 		})
 	})
 
-	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
+	r.Run() // 监听并在 0.0.0.0:8080 上启动服务 r.Run(":9999")可以运行在_9999_端口
 }
 
 func SetupRouter() *gin.Engine {
@@ -117,6 +117,13 @@ func HTMLRender() { // 这段代码的作用是，返回一个本地（服务器
 
 	router.GET("/tutorial", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "tutorial.html", gin.H{})
+	})
+
+	router.GET("/tutorial/:name", func(c *gin.Context) {
+		name := c.Param("name")
+		c.String(http.StatusOK, "Hello %s", name)
+		//c.HTML(http.StatusOK, "tutorial.html", gin.H{})
+
 	})
 
 	router.Run(":8080")
